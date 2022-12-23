@@ -6,7 +6,7 @@ from .models import Customer
 
 class LoginForm(AuthenticationForm):
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus ': 'True',
-    'class' : 'forms-control'}))
+    'class' : 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs=
     {'autocomplete': 'current-password', 'class': 'form-control'}))
                              
@@ -22,9 +22,12 @@ class CustomerRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
         
+class MyPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label = "Old Password", widget=forms.PasswordInput(attrs={'autofocus': 'True', 'autocomplete': 'current-password', 'class': 'form-control'}))
+    password1 = forms.CharField(label = "New Password", widget=forms.PasswordInput(attrs={'autofocus': 'True', 'autocomplete': 'current-password', 'class': 'form-control'}))
+    password2 = forms.CharField(label = "Confirm Password", widget=forms.PasswordInput(attrs={'autofocus': 'True', 'autocomplete': 'current-password', 'class': 'form-control'}))
 class MyPasswordResetForm(PasswordChangeForm):
     pass
-
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
