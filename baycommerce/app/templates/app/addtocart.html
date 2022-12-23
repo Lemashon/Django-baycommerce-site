@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block main-content %}
+
+<div class="col-sm-4">
+    <div class="card">
+        <div class="card-body">
+            <h3>The Total Amount of</h3>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center border-8 px-8 pb-0" >Amount <span id=" amount">USD{{amount}}</span></li>
+                <li class="list-group-item d-flex justify-content-between align-items-center px-8">Shipping<span>USD 40.00</span></li> <li class="list-group-item d-flex justify-content-between align-items-center border-8 px-8 mb-3">
+                    <div>
+                        <strong>Total</strong> <small>(including GST)</small>
+                    </div>
+                    <span id="total amount"><strong>Rs. {{total amount}}</strong></span>
+                </li>
+            </ul>
+         <div class="d-grid"><a href="{% url 'checkout' %}" class="btn btn-primary">Place Order</a></div>
+    </div>
+ </div>
+</div>
+{% else %}
+    <h1 class="text-center mb-5">Cart is Empty</h1>
+{% endif %}
+</div>
+</div>
+
+{% endblock main-content %}
+    

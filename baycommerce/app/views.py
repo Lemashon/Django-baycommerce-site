@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.views import View
-from . models import Product, Customer
+from . models import Cart,Product, Customer
 from . forms import CustomerProfileForm, CustomerRegistrationForm
 from django.contrib import messages
 
@@ -59,8 +59,7 @@ class ProfileView(View):
             locality=form.cleaned_data['locality']
             mobile=form.cleaned_data['mobile']
             state=form.cleaned_data['state']
-            zipcode=form.cleaned_data['zipcode']  
-            
+            zipcode=form.cleaned_data['zipcode']              
             reg = Customer(user=user, name=name, locality=locality, mobile=mobile, city=city, state=state, zipcode=zipcode)           
             reg.save()
             messages.success(request, "Congratulations! Profile saved Succesfully")
@@ -93,3 +92,15 @@ class updateAddress(View):
         else:
             messages.warning(request, "Invalid input data")               
         return redirect("address")    
+
+def add_to_cart(request):
+    user=request.user
+    product_id=request.GET.get('prod_id')
+    product=Product.objects.get(id=product_id)
+    Cart(user=user,product=product).save(),
+    return redirect("/cart")
+    
+def show_cart(request):
+    user= request.user
+    cart= Cart.objects.filter(user=user)
+    return render(request, 'app/addtocart.html', locals)
