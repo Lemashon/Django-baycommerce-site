@@ -2,10 +2,12 @@ from django.db.models import Count
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
+from razorpay import razorpay
 from . models import Cart,Product, Customer
 from . forms import CustomerProfileForm, CustomerRegistrationForm
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
 
 
 
@@ -111,6 +113,7 @@ def show_cart(request):
         value = p.quantity * p.product.discounted_price
         amount = amount + value
     totalamount = amount + 40
+    
     return render(request, 'app/addtocart.html', locals())
 
 class checkout(View):
@@ -123,6 +126,12 @@ class checkout(View):
             value = p.quantity * p.product.discounted_price
             famount = famount + value
         totalamount = famount + 40
+        razoramount = int(totalamount + 100)
+        client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+        data={"amount": razoramount, "currency": "USD", "receipt": "order_reptid_11"}
+        payment_response = client.order.create(data=data)
+        print(payment_response)
+        
         return render(request, 'app/checkout.html',locals())
 
 
